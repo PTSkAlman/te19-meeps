@@ -6,7 +6,9 @@ const sassMiddleware = require('node-sass-middleware');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const meepsRouter = require('./routes/meeps');
+const nunjucks = require('nunjucks');
+const session = require('express-session');
 
 const app = express();
 
@@ -22,8 +24,15 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+/*app.use(session({
+  secret: 'skalman',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { sameSite: true }
+}));*/
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/meeps', meepsRouter);
 
 nunjucks.configure('views', {
   autoescape: true,

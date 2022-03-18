@@ -1,0 +1,33 @@
+{% extends layout %}
+{% block content %}
+<main class="container">
+    <div>
+        <form action="/meeps" method="post">
+            <div class="input-group">
+                <input
+                type="text"
+                name="meep"
+                id="meep"
+                values="{{ meep }}"
+                placeholder="Write a meep"
+                required>
+                <button type="submit" class="input-group-text">Post meep</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <ul class="list-group">
+            {% for meep in meeps %}
+            <li class="list-group-item d-flex justify-content-between">
+                <div>
+                    {{meep.body}}
+                </div>
+                <div>
+                    {{meep.created_at}}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
+{% endblock %}
