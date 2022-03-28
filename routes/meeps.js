@@ -4,7 +4,7 @@ const pool = require('../database');
 
 router.get('/', async (req, res, next) => {
     await pool.promise()
-        .query('SELECT * FROM meeps')
+        .query('SELECT * FROM meeps ORDER BY created_at DESC')
         .then(([rows, fields]) => {
             res.render('meeps.njk', {
                 meeps: rows,
@@ -58,6 +58,23 @@ router.get('/:id', async (req,res,next) => {
                 data: rows
             }
         });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            meeps: {
+                error: 'Invalid meep'
+            }
+        })
+    });
+});
+
+router.get('/:id/delete', async (req,res,next) => {
+    const id = req.params.id;
+    await pool.promise()
+    .query('DELETE FROM meeps WHERE id = ?', [id])
+    .then((response) => {
+        res.redirect('/meeps');
     })
 });
 module.exports = router;
