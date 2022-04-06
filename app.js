@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const meepsRouter = require('./routes/meeps');
-const editRouter = require('./routes/edit');
+//const editRouter = require('./routes/edit');
 const nunjucks = require('nunjucks');
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/meeps', meepsRouter);
-app.use('/edit', editRouter);
+//app.use('/edit', editRouter);
 
 
 nunjucks.configure('views', {
