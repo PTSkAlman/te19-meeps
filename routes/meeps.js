@@ -7,7 +7,7 @@ router.get('/', async (req, res, next) => {
         .query('SELECT * FROM jolabn_meeps ORDER BY created_at DESC')
         .then(([rows, fields]) => {
             res.render('meeps.njk', {
-                jolabn_meeps: rows,
+                meeps: rows,
                 title: 'meeps',
                 layout: 'layout.njk'
             });
