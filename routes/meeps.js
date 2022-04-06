@@ -4,11 +4,11 @@ const pool = require('../database');
 
 router.get('/', async (req, res, next) => {
     await pool.promise()
-        .query('SELECT * FROM meeps ORDER BY created_at DESC')
+        .query('SELECT * FROM jolabn_meeps ORDER BY created_at DESC')
         .then(([rows, fields]) => {
             res.render('meeps.njk', {
-                meeps: rows,
-                title: 'Meeps',
+                jolabn_meeps: rows,
+                title: 'meeps',
                 layout: 'layout.njk'
             });
         })
@@ -26,7 +26,7 @@ router.post('/', async (req, res, next) => {
     const meep = req.body.meep;
 
     await pool.promise()
-    .query('INSERT INTO meeps (body) VALUES(?)', [meep])
+    .query('INSERT INTO jolabn_meeps (body) VALUES(?)', [meep])
     .then((response) => {
         if (response[0].affectedRows == 1) {
             res.redirect('/meeps');
@@ -41,7 +41,7 @@ router.post('/', async (req, res, next) => {
     .catch(err => {
         console.log(err);
         res.status(500).json({
-            meeps: {
+            jolabn_meeps: {
                 error: 'Invalid meep'
             }
         })
@@ -51,7 +51,7 @@ router.post('/', async (req, res, next) => {
 router.get('/:id', async (req,res,next) => {
     const id = req.params.id;
     await pool.promise()
-    .query('SELECT * FROM meeps WHERE id = ?', [id])
+    .query('SELECT * FROM jolabn_meeps WHERE id = ?', [id])
     .then(([rows, fields]) => {
         res.json({
             meeps: {
@@ -72,9 +72,18 @@ router.get('/:id', async (req,res,next) => {
 router.get('/:id/delete', async (req,res,next) => {
     const id = req.params.id;
     await pool.promise()
-    .query('DELETE FROM meeps WHERE id = ?', [id])
+    .query('DELETE FROM jolabn_meeps WHERE id = ?', [id])
+    .then((response) => {
+        res.redirect('/_meeps');
+    })
+});
+
+router.get('/:id/update', async (req,res,next) => {
+    const body = req.params.body;
+    await pool.promise()
+    .query('ALTER TABLE jolabn_meeps MODIFY COLUMN body = ?',[body])
     .then((response) => {
         res.redirect('/meeps');
-    })
+    });
 });
 module.exports = router;

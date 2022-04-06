@@ -7,8 +7,8 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const meepsRouter = require('./routes/meeps');
+const editRouter = require('./routes/edit');
 const nunjucks = require('nunjucks');
-const session = require('express-session');
 
 const app = express();
 
@@ -24,15 +24,10 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*app.use(session({
-  secret: 'skalman',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { sameSite: true }
-}));*/
-
 app.use('/', indexRouter);
 app.use('/meeps', meepsRouter);
+app.use('/edit', editRouter);
+
 
 nunjucks.configure('views', {
   autoescape: true,

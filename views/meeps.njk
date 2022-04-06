@@ -1,30 +1,24 @@
-{% extends layout %}
+{% extends "layout.njk" %}
 {% block content %}
-    <main class="container w-75">
-        <div>
-            <form action="/meeps" method="post">
-                <div class="input-group">
-                    <input type="text" name="meep" id="meep" values="{{ meep }}" placeholder="Write a meep" required>
-                        <button type="submit" class="input-group-text">Post meep</button>
+    <main class="container w-50 mx-auto">
+        {%include "components/form.njk"%}
+        <div class="w-75 mx-auto">
+            {% for meep in meeps %}
+                <div class="d-flex justify-content-between card flex-row m-1 p-1">
+                    <div class="text-break">
+                        <p>{{ meep.body }}</p>
+                        <p class="blockquote-footer">{{ meep.created_at }}</p>
                     </div>
-                </form>
-            </div>
-            <div>
-                {% for meep in meeps %}
-                    <div class="d-flex justify-content-between card flex-row m-1 p-1">
-                        <div class="text-break">
-                            <p>{{ meep.body }}</p>
-                            <p class="blockquote-footer">{{ meep.created_at }}</p>
-                        </div>
-                        <div class="dropdown">
-                            <button onclick="myFunction({{ meep.id }})" class="dropbtn">...</button>
-                            <div id="{{ meep.id }}" class="content">
-                                <a href="/meeps/{{ meep.id }}/delete">Delete</a>
-                            </div>
+                    <div class="dropdown">
+                        <button onclick="myFunction({{ meep.id }})" class="dropbtn">...</button>
+                        <div id="{{ meep.id }}" class="content">
+                            <a href="/meeps/{{ meep.id }}/delete">Delete</a>
+                            <a href="/edit/{{meep.id}}">Edit</a>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-        </main>
-        <script src="/js/dropdown.js"></script>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+    <script src="/js/dropdown.js"></script>
     {% endblock %}
