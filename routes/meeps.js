@@ -74,7 +74,7 @@ router.get('/:id/delete', async (req,res,next) => {
     await pool.promise()
     .query('DELETE FROM jolabn_meeps WHERE id = ?', [id])
     .then((response) => {
-        res.redirect('/_meeps');
+        res.redirect('/meeps');
     })
 });
 
